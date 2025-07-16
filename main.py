@@ -87,19 +87,25 @@ def solve_tsp(matrix):
 
     return route
 
-# Obtener ruta
+# Obtener ruta y duración del viaje
 def get_full_route_geometry(coordinates):
     """
     Pide a ORS la ruta completa (carretera) entre los puntos dados en orden.
+    Devuelve: geometría [lat, lng], duración total en minutos.
     """
-    geometry = client.directions(
+    response = client.directions(
         coordinates,
         profile='driving-car',
         format='geojson'
-    )['features'][0]['geometry']['coordinates']
+    )
+    geometry = response['features'][0]['geometry']['coordinates']
+    duration_seconds = response['features'][0]['properties']['summary']['duration']
+    duration_minutes = duration_seconds / 60
 
-    # ORS devuelve [lng, lat], pero folium necesita [lat, lng]
-    return [[lat, lng] for lng, lat in geometry]
+    # ORS devuelve [lng, lat], pero folium quiere [lat, lng]
+    geometry_latlon = [[lat, lng] for lng, lat in geometry]
+
+    return geometry_latlon, duration_minutes
 
 # Mostrar mapa interactivo
 def mostrar_mapa_interactivo(coordinates, route, filename="mapa_ruta.html"):
@@ -107,10 +113,10 @@ def mostrar_mapa_interactivo(coordinates, route, filename="mapa_ruta.html"):
     # Obtener coordenadas ordenadas por la ruta óptima
     ordered_coords = [coordinates[i] for i in route]
 
-    # Pedir la ruta real a ORS
-    full_route = get_full_route_geometry(ordered_coords)
+    # Obtenemos geometría de la ruta y duración
+    full_route, duration = get_full_route_geometry(ordered_coords)
 
-    # Crear el mapa centrado en el punto inicial
+    # Crear mapa centrado en el punto inicial
     start_coord = ordered_coords[0][::-1]
     mapa = folium.Map(location=start_coord, zoom_start=6)
 
@@ -128,9 +134,11 @@ def mostrar_mapa_interactivo(coordinates, route, filename="mapa_ruta.html"):
     # Dibujar ruta real
     folium.PolyLine(locations=full_route, color="blue", weight=4).add_to(mapa)
 
-    # Guardar y abrir el mapa
+    # Mostrar duración total en consola
+    print(f"\n⏱️  Duración estimada del recorrido: {duration:.1f} minutos")
+
+    # Guardar y abrir mapa
     mapa.save(filename)
-    print(f"\n🗺️  Mapa interactivo guardado en: {filename}")
     webbrowser.open(f"file://{os.path.abspath(filename)}")
 
 
