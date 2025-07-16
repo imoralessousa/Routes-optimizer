@@ -3,6 +3,9 @@ from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 from dotenv import load_dotenv
 import os
+import folium
+import webbrowser
+
 
 load_dotenv()
 api_key = os.getenv("ORS_API_KEY")
@@ -84,6 +87,53 @@ def solve_tsp(matrix):
 
     return route
 
+# Obtener ruta
+def get_full_route_geometry(coordinates):
+    """
+    Pide a ORS la ruta completa (carretera) entre los puntos dados en orden.
+    """
+    geometry = client.directions(
+        coordinates,
+        profile='driving-car',
+        format='geojson'
+    )['features'][0]['geometry']['coordinates']
+
+    # ORS devuelve [lng, lat], pero folium necesita [lat, lng]
+    return [[lat, lng] for lng, lat in geometry]
+
+# Mostrar mapa interactivo
+def mostrar_mapa_interactivo(coordinates, route, filename="mapa_ruta.html"):
+    
+    # Obtener coordenadas ordenadas por la ruta óptima
+    ordered_coords = [coordinates[i] for i in route]
+
+    # Pedir la ruta real a ORS
+    full_route = get_full_route_geometry(ordered_coords)
+
+    # Crear el mapa centrado en el punto inicial
+    start_coord = ordered_coords[0][::-1]
+    mapa = folium.Map(location=start_coord, zoom_start=6)
+
+    # Añadir marcadores
+    for i, coord in enumerate(ordered_coords):
+        latlon = coord[::-1]
+        label = "A (Inicio)" if i == 0 else "B (Fin)" if i == len(ordered_coords) - 1 else f"Punto {i}"
+        folium.Marker(
+            location=latlon,
+            popup=label,
+            tooltip=label,
+            icon=folium.Icon(color='green' if i == 0 else 'red' if i == len(ordered_coords) - 1 else 'blue')
+        ).add_to(mapa)
+
+    # Dibujar ruta real
+    folium.PolyLine(locations=full_route, color="blue", weight=4).add_to(mapa)
+
+    # Guardar y abrir el mapa
+    mapa.save(filename)
+    print(f"\n🗺️  Mapa interactivo guardado en: {filename}")
+    webbrowser.open(f"file://{os.path.abspath(filename)}")
+
+
 # ▶️ MAIN
 def main():
     start_addr, middle_addrs, end_addr = get_addresses()
@@ -119,6 +169,9 @@ def main():
     for idx in route:
         label = "A (Inicio)" if idx == 0 else "B (Fin)" if idx == len(coordinates) - 1 else f"Punto {idx}"
         print(f" - {label}: {addresses[idx]}")
+
+    # Mostrar mapa
+    mostrar_mapa_interactivo(coordinates, route)
 
 if __name__ == "__main__":
     main()
