@@ -1,0 +1,50 @@
+Calle Alcalá, 28014 Madrid
+Calle Velázquez, 28001 Madrid
+Calle Gran Vía, 28013 Madrid
+Calle de Serrano, 28001 Madrid
+Calle Goya, 28001 Madrid
+Calle Sants, 08028 Barcelona
+Calle Aragó, 08015 Barcelona
+Carrer de Balmes, 08007 Barcelona
+Carrer de Casanova, 08011 Barcelona
+Carrer de Muntaner, 08021 Barcelona
+Calle Colón, 46004 Valencia
+Avenida del Puerto, 46023 Valencia
+Calle de la Paz, 46003 Valencia
+Calle San Vicente Mártir, 46007 Valencia
+Gran Via de Ferran el Catòlic, 46008 Valencia
+Calle Larios, 29005 Málaga
+Avenida Andalucía, 29006 Málaga
+Paseo del Parque, 29015 Málaga
+Camino de Suárez, 29011 Málaga
+Calle Victoria, 29012 Málaga
+Avenida de la Palmera, 41013 Sevilla
+Calle San Fernando, 41004 Sevilla
+Calle Betis, 41010 Sevilla
+Calle Sierpes, 41001 Sevilla
+Avenida de Kansas City, 41007 Sevilla
+Calle de Uría, 33003 Oviedo
+Avenida de Galicia, 33005 Oviedo
+Calle Jovellanos, 33003 Oviedo
+Calle Campoamor, 33001 Oviedo
+Calle del Rosal, 33009 Oviedo
+Calle Gran Capitán, 18002 Granada
+Calle Recogidas, 18005 Granada
+Calle San Antón, 18005 Granada
+Camino de Ronda, 18004 Granada
+Calle Reyes Católicos, 18010 Granada
+Calle Mayor, 48005 Bilbao
+Avenida Sabino Arana, 48013 Bilbao
+Calle Rodríguez Arias, 48011 Bilbao
+Calle Autonomía, 48012 Bilbao
+Calle Hurtado de Amézaga, 48008 Bilbao
+Ronda de Nelle, 15005 A Coruña
+Calle Real, 15003 A Coruña
+Avenida de Arteixo, 15008 A Coruña
+Calle Barcelona, 15010 A Coruña
+Calle San Andrés, 15003 A Coruña
+Calle Mayor, 03002 Alicante
+Avenida Maisonnave, 03003 Alicante
+Calle San Vicente, 03004 Alicante
+Calle del Teatro, 03001 Alicante
+Calle Italia, 03003 Alicante

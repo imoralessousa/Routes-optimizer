@@ -6,10 +6,18 @@ import os
 import folium
 import webbrowser
 
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from common.ors_client import get_ors_client
+from common.geocoding import geocode_address
+from common.visualization import mostrar_mapa_interactivo
+
+
 
 load_dotenv()
 api_key = os.getenv("ORS_API_KEY")
-client = openrouteservice.Client(key=api_key)
+client = get_ors_client()
 
 # 🌍 Geocodifica una dirección en coordenadas [lng, lat]
 def geocode_address(address):
@@ -52,7 +60,7 @@ def get_distance_matrix(locations):
 # 🧠 Resolver TSP con origen y destino fijos
 def solve_tsp(matrix):
     size = len(matrix)
-    manager = pywrapcp.RoutingIndexManager(size, 1, [0], [size-1])  # 1 vehículo, empieza en 0
+    manager = pywrapcp.RoutingIndexManager(size, 1, [0], [size-1])  # 1 vehículo, empieza en 0 y acaba en el último
 
     routing = pywrapcp.RoutingModel(manager)
 
@@ -63,10 +71,6 @@ def solve_tsp(matrix):
 
     transit_callback_index = routing.RegisterTransitCallback(distance_callback)
     routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
-
-    # 💡 Restringir punto final (último nodo) como destino fijo
-    # routing.AddDisjunction([manager.NodeToIndex(size - 1)], 0)
-    # routing.SetFixedCostOfAllVehicles(0)
 
     search_params = pywrapcp.DefaultRoutingSearchParameters()
     search_params.first_solution_strategy = routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC
