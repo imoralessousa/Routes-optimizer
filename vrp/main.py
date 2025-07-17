@@ -12,7 +12,7 @@ def get_input_data():
     print("🚚 ¿Cuántos vehículos usarás?")
     n_vehicles = int(input("> "))
 
-    print("🏭 Introduce dirección del depósito (inicio/fin de todos los vehículos):")
+    print("🏭 Introduce dirección de salida (inicio/fin de todos los vehículos):")
     depot = input("> ")
 
     print("\n📁 Leyendo direcciones desde archivo 'destinations.txt'...")
@@ -26,6 +26,7 @@ def get_input_data():
 
     return n_vehicles, depot, locations
 
+
 # 📏 Matriz de distancias
 def get_distance_matrix(client, coordinates):
     matrix = client.distance_matrix(
@@ -36,7 +37,8 @@ def get_distance_matrix(client, coordinates):
     )
     return matrix['distances']
 
-# 🧠 Resolver VRP
+
+# 🧠 Resolver problema VRP
 def solve_vrp(matrix, n_vehicles, depot_index):
     size = len(matrix)
     manager = pywrapcp.RoutingIndexManager(size, n_vehicles, depot_index)
