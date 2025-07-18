@@ -1,0 +1,5 @@
+Calle Mayor 10, Madrid | 12:00 | 14:00
+Calle Atocha 45, Madrid
+Calle Goya 100, Madrid
+Calle Alcalá 200, Madrid | 10:00 | 12:00
+Calle Serrano 50, Madrid

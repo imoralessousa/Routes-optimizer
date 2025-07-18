@@ -17,7 +17,7 @@ def get_input_data():
 
     print("\n📁 Leyendo direcciones desde archivo 'destinations.txt'...")
     try:
-        with open("destinations.txt", "r", encoding="utf-8") as f:
+        with open("vrp/destinations.txt", "r", encoding="utf-8") as f:
             locations = [line.strip() for line in f if line.strip()]
         print(f"✔️ Se cargaron {len(locations)} direcciones.")
     except FileNotFoundError:
